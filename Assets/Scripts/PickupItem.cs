@@ -4,6 +4,7 @@ public class PickupItem : MonoBehaviour
 {
     public string id;
     public string displayName;
+    [TextArea] public string description;
     public Sprite icon;
     public bool destroyOnPickup = false;
 
