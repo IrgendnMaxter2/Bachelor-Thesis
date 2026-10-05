@@ -20,14 +20,22 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) &&
-            (inspectionUI == null || !inspectionUI.IsOpen))
+        if (IsOpen)
         {
-            if (IsOpen)
+            if (Input.GetKeyDown(KeyCode.Tab) ||
+                Input.GetKeyDown(KeyCode.Escape))
+            {
                 Close();
-            else
-                Open();
+            }
+    
+            return;
         }
+    
+        if (inspectionUI != null && inspectionUI.IsOpen)
+            return;
+    
+        if (Input.GetKeyDown(KeyCode.Tab))
+            Open();
     }
 
     private void Open()
