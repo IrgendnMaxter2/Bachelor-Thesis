@@ -20,6 +20,14 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
+        if (IsOpen && inspectionUI != null && inspectionUI.IsOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                inspectionUI.Close();
+    
+            return;
+        }
+    
         if (IsOpen)
         {
             if (Input.GetKeyDown(KeyCode.Tab) ||
@@ -75,7 +83,7 @@ public class InventoryUI : MonoBehaviour
         foreach (InventoryEntry entry in InventoryManager.Instance.Items)
         {
             InventorySlotUI slot = Instantiate(slotPrefab, gridContent);
-            slot.SetEntry(entry);
+            slot.SetEntry(entry, inspectionUI);
         }
     }
 }
