@@ -10,6 +10,7 @@ public class InspectionUI : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private GameObject pickupButton;
     [SerializeField] private GameObject combineButton;
+    [SerializeField] private InventoryUI inventoryUI;
     
     private InventoryEntry inspectedEntry;
 
@@ -25,7 +26,7 @@ public class InspectionUI : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void Show(PickupItem item)
+    public void ShowItem(PickupItem item)
     {
         if (item == null)
             return;
@@ -42,7 +43,7 @@ public class InspectionUI : MonoBehaviour
         ShowDetails(item.displayName, item.description, item.icon);
     }
     
-    public void Show(InventoryEntry entry)
+    public void ShowInventory(InventoryEntry entry)
     {
         if (entry == null)
             return;
@@ -78,10 +79,13 @@ public class InspectionUI : MonoBehaviour
         Cursor.visible = true;
     }
     
-    public void CombinePlaceholder()
+    public void CombineItems()
     {
-        if (inspectedEntry != null)
-            Debug.Log($"Combine clicked for {inspectedEntry.DisplayName}. Combination logic is not implemented yet.");
+        if (inspectedEntry == null)
+            return;
+
+        inventoryUI.StartCombination(inspectedEntry);
+        Close();
     }
 
     public void ConfirmPickup()
@@ -107,10 +111,11 @@ public class InspectionUI : MonoBehaviour
     {
         if (!IsOpen)
             return;
-
+    
         panel.SetActive(false);
         inspectedItem = null;
-
+        inspectedEntry = null;
+    
         Time.timeScale = previousTimeScale;
         Cursor.lockState = previousCursorLockMode;
         Cursor.visible = previousCursorVisible;

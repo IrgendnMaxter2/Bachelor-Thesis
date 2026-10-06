@@ -57,7 +57,7 @@ public class PlayerPickup : MonoBehaviour
             promptText.text = $"Press 'E' to inspect {closestItem.displayName}";
 
         if (Input.GetKeyDown(KeyCode.E) && inspectionUI != null)
-            inspectionUI.Show(closestItem);
+            inspectionUI.ShowItem(closestItem);
     }
 
     private PickupItem GetClosestNearbyItem()
