@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c40ea6b2f3649d43af597236fb9f72f, type: 3}
   m_Name: TestCombinationRecipe
   m_EditorClassIdentifier: 
-  ingredientIds: []
-  resultId: 
-  resultName: 
-  resultDescription: 
+  ingredientIds:
+  - item_branch
+  - item_branch
+  resultId: item_longBranch
+  resultName: Long Branch
+  resultDescription: Like a branch, but longer
   resultIcon: {fileID: 0}
