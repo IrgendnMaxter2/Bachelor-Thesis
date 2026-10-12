@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientIds:
   - item_branch
-  - item_branch
-  resultId: item_longBranch
-  resultName: Long Branch
-  resultDescription: Like a branch, but longer
+  - item_doll
+  resultId: item_torch
+  resultName: Torch
+  resultDescription: Flamable (hopefully)
   resultIcon: {fileID: 0}
