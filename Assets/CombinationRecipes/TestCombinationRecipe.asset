@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: TestCombinationRecipe
   m_EditorClassIdentifier: 
   ingredientIds:
-  - item_branch
-  - item_doll
+  - item_thickBranch
+  - item_strawDoll
   resultId: item_torch
   resultName: Torch
-  resultDescription: Flamable (hopefully)
+  resultDescription: Flammable (hopefully)
   resultIcon: {fileID: 0}
