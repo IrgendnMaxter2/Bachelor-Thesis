@@ -3452,7 +3452,7 @@ MonoBehaviour:
   selectionText: {fileID: 1534737357}
   combineButton: {fileID: 2143747654}
   combinationRecipes:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 89483e58d89f2d442ac3c5cc469aea5f, type: 2}
 --- !u!1 &1122941488
 GameObject:
   m_ObjectHideFlags: 0
