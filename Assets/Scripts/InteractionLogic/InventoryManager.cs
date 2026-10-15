@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public sealed class InventoryEntry
@@ -44,6 +45,8 @@ public class InventoryManager : MonoBehaviour
     // Equipped item management
     public InventoryEntry EquippedItem { get; private set; }
 
+    public event Action<InventoryEntry> EquippedItemChanged;
+
     public bool IsEquipped(string id)
     {
         return EquippedItem != null && EquippedItem.Id == id;
@@ -57,12 +60,14 @@ public class InventoryManager : MonoBehaviour
             return false;
 
         EquippedItem = entry;
+        EquippedItemChanged?.Invoke(EquippedItem);
         return true;
     }
 
     public void Unequip()
     {
         EquippedItem = null;
+        EquippedItemChanged?.Invoke(null);
     }
     
     private void Awake()
