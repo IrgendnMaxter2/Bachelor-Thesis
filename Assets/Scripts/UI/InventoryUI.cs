@@ -157,18 +157,18 @@ public class InventoryUI : MonoBehaviour
         if (InventoryManager.Instance.TryCombine(
             selectedEntries,
             recipe))
-        {
-            ShowCombinationMessage(
-                $"{recipe.ResultName} was added to your inventory.");
-            selectedEntries.Clear();
-            combining = false;
-            combinationPanel.SetActive(false);
-            RefreshGrid();
-        }
-        else
-        {
-            ShowCombinationMessage(
-                "The combination could not be completed.");
+            {
+                ShowCombinationMessage(
+                    $"{recipe.ResultName} was added to your inventory.");
+                selectedEntries.Clear();
+                combining = false;
+                combinationPanel.SetActive(false);
+                RefreshGrid();
+            }
+            else
+            {
+                ShowCombinationMessage(
+                    "The combination could not be completed.");
         }
     }
 

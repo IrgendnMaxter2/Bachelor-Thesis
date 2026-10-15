@@ -40,6 +40,31 @@ public class InventoryManager : MonoBehaviour
 
     public IReadOnlyList<InventoryEntry> Items => items.AsReadOnly();
 
+    
+    // Equipped item management
+    public InventoryEntry EquippedItem { get; private set; }
+
+    public bool IsEquipped(string id)
+    {
+        return EquippedItem != null && EquippedItem.Id == id;
+    }
+
+    public bool TryEquip(string id)
+    {
+        InventoryEntry entry = items.Find(item => item.Id == id);
+
+        if (entry == null)
+            return false;
+
+        EquippedItem = entry;
+        return true;
+    }
+
+    public void Unequip()
+    {
+        EquippedItem = null;
+    }
+    
     private void Awake()
     {
         if (Instance == null)
@@ -113,6 +138,10 @@ public class InventoryManager : MonoBehaviour
             if (items[i].Id == id)
             {
                 items.RemoveAt(i);
+
+                if (IsEquipped(id))
+                    Unequip();
+
                 return true;
             }
         }

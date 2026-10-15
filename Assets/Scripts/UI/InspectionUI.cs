@@ -7,9 +7,11 @@ public class InspectionUI : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text equipButtonText;
     [SerializeField] private Image iconImage;
     [SerializeField] private GameObject pickupButton;
     [SerializeField] private GameObject combineButton;
+    [SerializeField] private Button equipButton;
     [SerializeField] private InventoryUI inventoryUI;
     
     private InventoryEntry inspectedEntry;
@@ -39,6 +41,9 @@ public class InspectionUI : MonoBehaviour
     
         if (combineButton != null)
             combineButton.SetActive(false);
+
+        if (equipButton != null)
+            equipButton.gameObject.SetActive(false);
     
         ShowDetails(item.displayName, item.description, item.icon);
     }
@@ -56,6 +61,11 @@ public class InspectionUI : MonoBehaviour
     
         if (combineButton != null)
             combineButton.SetActive(true);
+
+        if (equipButton != null)
+            equipButton.gameObject.SetActive(true);
+
+        RefreshEquipButton();
     
         ShowDetails(entry.DisplayName, entry.Description, entry.Icon);
     }
@@ -105,6 +115,44 @@ public class InspectionUI : MonoBehaviour
         InventoryManager.Instance.Add(inspectedItem);
         inspectedItem.OnPickup();
         Close();
+    }
+
+    public void ToggleEquippedItem()
+    {
+        if (inspectedEntry == null)
+            return;
+    
+        if (InventoryManager.Instance == null)
+        {
+            Debug.LogError("No InventoryManager is active in the scene.");
+            return;
+        }
+    
+        if (InventoryManager.Instance.IsEquipped(inspectedEntry.Id))
+        {
+            InventoryManager.Instance.Unequip();
+        }
+        else if (!InventoryManager.Instance.TryEquip(inspectedEntry.Id))
+        {
+            Debug.LogWarning($"Could not equip inventory item '{inspectedEntry.Id}'.");
+            return;
+        }
+    
+        RefreshEquipButton();
+    }
+    
+    private void RefreshEquipButton()
+    {
+        if (equipButtonText == null || inspectedEntry == null ||
+            InventoryManager.Instance == null)
+        {
+            return;
+        }
+    
+        equipButtonText.text =
+            InventoryManager.Instance.IsEquipped(inspectedEntry.Id)
+                ? "Unequip"
+                : "Equip";
     }
 
     public void Close()
