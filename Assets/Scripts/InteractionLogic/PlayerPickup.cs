@@ -5,6 +5,7 @@ public class PlayerPickup : MonoBehaviour
 {
     [SerializeField] private Camera interactionCamera;
     [SerializeField] private float interactionDistance = 3f;
+    [SerializeField] private float interactionRadius = 0.2f;
     [SerializeField] private LayerMask interactionLayers = ~0;
     [SerializeField] private GameObject prompt;
     [SerializeField] private TMP_Text promptText;
@@ -33,10 +34,11 @@ public class PlayerPickup : MonoBehaviour
             interactionCamera.transform.forward);
 
         // Temporary debug ray
-        Debug.DrawRay(ray.origin, ray.direction * interactionDistance, Color.yellow);
+        Debug.DrawRay(ray.origin, ray.direction * interactionDistance, Color.blue);
 
-        if (!Physics.Raycast(
+        if (!Physics.SphereCast(
                 ray,
+                interactionRadius,
                 out RaycastHit hit,
                 interactionDistance,
                 interactionLayers,
@@ -45,13 +47,6 @@ public class PlayerPickup : MonoBehaviour
             HidePrompt();
             return;
         }
-
-        // Temporary debug log
-        Debug.Log(
-            $"Ray hit '{hit.collider.name}'. " +
-            $"Pickup found: {hit.collider.GetComponentInParent<PickupItem>() != null}; " +
-            $"Locked interactable found: " +
-            $"{hit.collider.GetComponentInParent<ItemLockedInteractable>() != null}");
 
         ItemLockedInteractable lockedObject =
             hit.collider.GetComponentInParent<ItemLockedInteractable>();
