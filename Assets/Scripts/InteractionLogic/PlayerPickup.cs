@@ -1,19 +1,17 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class PlayerPickup : MonoBehaviour
 {
+    [SerializeField] private Camera interactionCamera;
+    [SerializeField] private float interactionDistance = 3f;
+    [SerializeField] private LayerMask interactionLayers = ~0;
     [SerializeField] private GameObject prompt;
     [SerializeField] private TMP_Text promptText;
     [SerializeField] private InspectionUI inspectionUI;
 
-    private readonly List<PickupItem> nearbyItems = new List<PickupItem>();
-
-    private readonly List<ItemLockedInteractable> nearbyLockedObjects =
-    new List<ItemLockedInteractable>();
-
     private float feedbackUntil;
+    private ItemLockedInteractable feedbackTarget;
     private string interactionFeedback;
 
     private void Start()
@@ -22,140 +20,92 @@ public class PlayerPickup : MonoBehaviour
             prompt.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        PickupItem item = other.GetComponentInParent<PickupItem>();
-
-        if (item != null && !nearbyItems.Contains(item))
-            nearbyItems.Add(item);
-
-        ItemLockedInteractable lockedObject =
-            other.GetComponentInParent<ItemLockedInteractable>();
-        
-        if (lockedObject != null && !nearbyLockedObjects.Contains(lockedObject))
-            nearbyLockedObjects.Add(lockedObject);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        PickupItem item = other.GetComponentInParent<PickupItem>();
-
-        if (item != null)
-            nearbyItems.Remove(item);
-
-        ItemLockedInteractable lockedObject =
-            other.GetComponentInParent<ItemLockedInteractable>();
-
-        if (lockedObject != null)
-            nearbyLockedObjects.Remove(lockedObject);
-    }
-
     private void Update()
     {
-        nearbyItems.RemoveAll(item =>
-            item == null || !item.gameObject.activeInHierarchy);
-
-        nearbyLockedObjects.RemoveAll(item =>
-            item == null || !item.gameObject.activeInHierarchy || item.IsUnlocked);
-
         if (inspectionUI != null && inspectionUI.IsOpen)
         {
-            if (prompt != null)
-                prompt.SetActive(false);
-
+            HidePrompt();
             return;
         }
 
-        PickupItem closestItem = GetClosestNearbyItem();
+        Ray ray = new Ray(
+            interactionCamera.transform.position,
+            interactionCamera.transform.forward);
 
-        ItemLockedInteractable closestLockedObject =
-            GetClosestNearbyLockedObject();
-        
-        bool lockedObjectIsClosest =
-            closestLockedObject != null &&
-            (closestItem == null ||
-             (closestLockedObject.transform.position - transform.position).sqrMagnitude <
-             (closestItem.transform.position - transform.position).sqrMagnitude);
-        
-        if (lockedObjectIsClosest)
+        // Temporary debug ray
+        Debug.DrawRay(ray.origin, ray.direction * interactionDistance, Color.yellow);
+
+        if (!Physics.Raycast(
+                ray,
+                out RaycastHit hit,
+                interactionDistance,
+                interactionLayers,
+                QueryTriggerInteraction.Collide))
         {
-            if (prompt != null)
-                prompt.SetActive(true);
-        
-            if (promptText != null)
+            HidePrompt();
+            return;
+        }
+
+        // Temporary debug log
+        Debug.Log(
+            $"Ray hit '{hit.collider.name}'. " +
+            $"Pickup found: {hit.collider.GetComponentInParent<PickupItem>() != null}; " +
+            $"Locked interactable found: " +
+            $"{hit.collider.GetComponentInParent<ItemLockedInteractable>() != null}");
+
+        ItemLockedInteractable lockedObject =
+            hit.collider.GetComponentInParent<ItemLockedInteractable>();
+
+        if (lockedObject != null)
+        {
+            if (lockedObject.IsUnlocked)
             {
-                promptText.text = Time.unscaledTime < feedbackUntil
-                    ? interactionFeedback
-                    : $"Press 'E' to interact with {closestLockedObject.DisplayName}";
+                HidePrompt();
+                return;
             }
-        
-            if (Input.GetKeyDown(KeyCode.E) &&
-                !closestLockedObject.TryInteract())
+
+            ShowPrompt(
+                Time.unscaledTime < feedbackUntil &&
+                feedbackTarget == lockedObject
+                    ? interactionFeedback
+                    : $"Press 'E' to interact with {lockedObject.DisplayName}");
+
+            if (Input.GetKeyDown(KeyCode.E) && !lockedObject.TryInteract())
             {
-                interactionFeedback = closestLockedObject.LockedMessage;
+                feedbackTarget = lockedObject;
+                interactionFeedback = lockedObject.LockedMessage;
                 feedbackUntil = Time.unscaledTime + 1.5f;
             }
-        
+
             return;
         }
 
-        if (prompt != null)
-            prompt.SetActive(closestItem != null);
+        PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
 
-        if (closestItem == null)
+        if (pickup == null)
+        {
+            HidePrompt();
             return;
+        }
 
-        if (promptText != null)
-            promptText.text = $"Press 'E' to inspect {closestItem.displayName}";
+        ShowPrompt($"Press 'E' to inspect {pickup.displayName}");
 
         if (Input.GetKeyDown(KeyCode.E) && inspectionUI != null)
-            inspectionUI.ShowItem(closestItem);
+            inspectionUI.ShowItem(pickup);
     }
 
-
-    // Helper methods
-    private PickupItem GetClosestNearbyItem()
+    private void ShowPrompt(string message)
     {
-        PickupItem closestItem = null;
-        float closestDistance = float.MaxValue;
+        if (prompt != null)
+            prompt.SetActive(true);
 
-        foreach (PickupItem item in nearbyItems)
-        {
-            if (item == null)
-                continue;
-
-            float distance = (item.transform.position - transform.position).sqrMagnitude;
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestItem = item;
-            }
-        }
-
-        return closestItem;
+        if (promptText != null)
+            promptText.text = message;
     }
 
-    private ItemLockedInteractable GetClosestNearbyLockedObject()
+    private void HidePrompt()
     {
-        ItemLockedInteractable closestObject = null;
-        float closestDistance = float.MaxValue;
-
-        foreach (ItemLockedInteractable item in nearbyLockedObjects)
-        {
-            if (item == null)
-                continue;
-
-            float distance =
-                (item.transform.position - transform.position).sqrMagnitude;
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestObject = item;
-            }
-        }
-
-        return closestObject;
+        if (prompt != null)
+            prompt.SetActive(false);
     }
 }
