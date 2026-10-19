@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c40ea6b2f3649d43af597236fb9f72f, type: 3}
-  m_Name: TestCombinationRecipe
+  m_Name: Doll on a Stick
   m_EditorClassIdentifier: 
   ingredientIds:
-  - item_branch
-  - item_doll
-  resultId: item_torch
-  resultName: Torch
-  resultDescription: Flamable (hopefully)
+  - item_strawDoll
+  - item_sharpenedStick
+  - item_flimsyBranch
+  resultId: item_dollStick
+  resultName: Doll on a Stick
+  resultDescription: At least it stopped moving
   resultIcon: {fileID: 0}
