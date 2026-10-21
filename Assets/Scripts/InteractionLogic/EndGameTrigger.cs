@@ -17,12 +17,6 @@ public class EndGameTrigger : MonoBehaviour
         if (triggered || !other.CompareTag("Player"))
             return;
 
-        if (endGameUI == null)
-        {
-            Debug.LogError("Assign an EndGameUI component in the Inspector.", this);
-            return;
-        }
-
         triggered = true;
 
         if (outcome == Outcome.GameWon)

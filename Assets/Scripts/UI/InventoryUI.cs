@@ -54,7 +54,12 @@ public class InventoryUI : MonoBehaviour
         }
     
         if (inspectionUI != null && inspectionUI.IsOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                inspectionUI.Close();
+
             return;
+        }
     
         if (Input.GetKeyDown(KeyCode.Tab))
             Open();

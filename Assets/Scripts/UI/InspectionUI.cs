@@ -122,12 +122,6 @@ public class InspectionUI : MonoBehaviour
         if (inspectedEntry == null)
             return;
     
-        if (InventoryManager.Instance == null)
-        {
-            Debug.LogError("No InventoryManager is active in the scene.");
-            return;
-        }
-    
         if (InventoryManager.Instance.IsEquipped(inspectedEntry.Id))
         {
             InventoryManager.Instance.Unequip();
@@ -138,7 +132,7 @@ public class InspectionUI : MonoBehaviour
             return;
         }
     
-        RefreshEquipButton();
+        Close();
     }
     
     private void RefreshEquipButton()
