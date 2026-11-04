@@ -8259,7 +8259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f07dca8c112834ca0351288d2fac84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Car Trunk Door
+  displayName: Trunk Door
   requiredItemId: item_key
   lockedMessage: It's locked
   consumeItemOnUnlock: 1
