@@ -6,17 +6,22 @@ public class InventorySlotUI : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private Button slotButton;
-    
+    [SerializeField] private Button slotButton;    
     public void SetEntry(
         InventoryEntry entry,
-        InventoryUI inventoryUI)
+        InventoryUI inventoryUI,
+        bool clickable = true)
     {
         nameText.text = entry.DisplayName;
         iconImage.sprite = entry.Icon;
         iconImage.enabled = entry.Icon != null;
+
+        slotButton.enabled = clickable;
     
-        slotButton.onClick.AddListener(
-            () => inventoryUI.HandleSlotClick(entry));
+        if (clickable)
+        {
+            slotButton.onClick.AddListener(
+                () => inventoryUI.HandleSlotClick(entry));
+        }
     }
 }
