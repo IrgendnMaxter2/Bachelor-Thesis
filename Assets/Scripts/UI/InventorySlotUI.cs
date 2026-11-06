@@ -10,13 +10,17 @@ public class InventorySlotUI : MonoBehaviour
     
     public void SetEntry(
         InventoryEntry entry,
-        InventoryUI inventoryUI)
+        InventoryUI inventoryUI,
+        bool clickable = true)
     {
         nameText.text = entry.DisplayName;
         iconImage.sprite = entry.Icon;
         iconImage.enabled = entry.Icon != null;
     
-        slotButton.onClick.AddListener(
-            () => inventoryUI.HandleSlotClick(entry));
+        if (clickable)
+        {
+            slotButton.onClick.AddListener(
+                () => inventoryUI.HandleSlotClick(entry));
+        }
     }
 }

@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
     
     [SerializeField] private GameObject combinationPanel;
     [SerializeField] private TMP_Text selectionText;
+    [SerializeField] private Transform selectedItemsContent;
     [SerializeField] private Button combineButton;
     [SerializeField] private CombinationRecipe[] combinationRecipes;
 
@@ -23,6 +24,7 @@ public class InventoryUI : MonoBehaviour
     private bool previousCursorVisible;
 
     public bool IsOpen => panel != null && panel.activeSelf;
+    private const int MaxCombItems = 3;
 
     // -----------------------
     // Methods
@@ -137,9 +139,10 @@ public class InventoryUI : MonoBehaviour
         if (selectedEntries.Any(item => item.Id == entry.Id))
             return;
 
-        if (selectedEntries.Count >= 3)
+        if (selectedEntries.Count >= MaxCombItems)
         {
-            ShowCombinationMessage("Only two or three items can be combined.");
+            ShowCombinationMessage(
+                $"You can combine up to {MaxCombItems} items.");
             return;
         }
 
@@ -173,7 +176,7 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 ShowCombinationMessage(
-                    "The combination could not be completed.");
+                    "This isn't right...");
         }
     }
 
@@ -186,12 +189,21 @@ public class InventoryUI : MonoBehaviour
 
     private void RefreshCombinationUI()
     {
-        string names = string.Join(
-            ", ",
-            selectedEntries.Select(entry => entry.DisplayName));
+        foreach (Transform child in selectedItemsContent)
+            Destroy(child.gameObject);
 
-        selectionText.text = names;
-        combineButton.interactable = selectedEntries.Count >= 2;
+        foreach (InventoryEntry entry in selectedEntries)
+        {
+            InventorySlotUI slot = Instantiate(slotPrefab, selectedItemsContent);
+            slot.SetEntry(entry, this, clickable: false);
+        }
+
+        selectionText.text =
+            $"Select 2–{MaxCombItems} items ({selectedEntries.Count}/{MaxCombItems})";
+
+        combineButton.interactable =
+            selectedEntries.Count >= 2 &&
+            selectedEntries.Count <= MaxCombItems;
     }
 
     private void ShowCombinationMessage(string message)
