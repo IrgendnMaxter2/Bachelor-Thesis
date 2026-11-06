@@ -17,7 +17,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private TMP_Text selectionText;
     [SerializeField] private Button combineButton;
     [SerializeField] private CombinationRecipe[] combinationRecipes;
-
+    [SerializeField] private CombinationHint[] combinationHints;
+    
     // Variables
     private float previousTimeScale;
     private CursorLockMode previousCursorLockMode;
@@ -157,8 +158,15 @@ public class InventoryUI : MonoBehaviour
 
         if (recipe == null)
         {
+            CombinationHint hint = combinationHints?
+                .FirstOrDefault(candidate =>
+                    candidate != null && candidate.Matches(selectedEntries));
+        
             ShowCombinationMessage(
-                "No combination recipe matches these items.");
+                hint != null
+                    ? hint.Message
+                    : "No combination recipe matches these items.");
+        
             return;
         }
 

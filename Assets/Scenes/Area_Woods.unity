@@ -19888,6 +19888,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02bfd42be3ca8e04e93707d9f8a7dcc1, type: 2}
   - {fileID: 11400000, guid: 2175d110e3cc29841b99eadcb2ebddb1, type: 2}
   - {fileID: 11400000, guid: 7eed339c5cfe2544ea1d1354b51281ee, type: 2}
+  combinationHints:
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_lighter
+    message: "The doll gives you a stern look as it swats the sparks away.\r"
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_pocketKnife
+    message: The doll looks at you unfazed. It doesn't seem to care about metal.
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_sharpenedStick
+    message: It almost worked, but the Doll pulled itself free. How to keep it there?
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_thickBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_longBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_flimsyBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_pocketKnife
+    secondIngredientId: item_longBranch
+    message: It's long but not broad enough to be shaped.
+  - firstIngredientId: item_pocketKnife
+    secondIngredientId: item_flimsyBranch
+    message: It's too flimsy to be worked with a knife.
 --- !u!1001 &1118422283
 PrefabInstance:
   m_ObjectHideFlags: 0
