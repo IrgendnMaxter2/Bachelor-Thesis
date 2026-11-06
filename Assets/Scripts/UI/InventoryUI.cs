@@ -162,12 +162,12 @@ public class InventoryUI : MonoBehaviour
             CombinationHint hint = combinationHints?
                 .FirstOrDefault(candidate =>
                     candidate != null && candidate.Matches(selectedEntries));
-        
+
             ShowCombinationMessage(
                 hint != null
                     ? hint.Message
                     : "No combination recipe matches these items.");
-        
+
             return;
         }
 

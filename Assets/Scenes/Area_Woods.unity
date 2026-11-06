@@ -4945,10 +4945,10 @@ MonoBehaviour:
   - firstIngredientId: item_lighter
     secondIngredientId: item_flimsyBranch
     message: It's too moist to catch fire.
-  - firstIngredientId: item_knife
+  - firstIngredientId: item_pocketKnife
     secondIngredientId: item_longBranch
     message: It's long but not broad enough to be shaped.
-  - firstIngredientId: item_knife
+  - firstIngredientId: item_pocketKnife
     secondIngredientId: item_flimsyBranch
     message: It's too flimsy to be worked with a knife.
 --- !u!1 &1122941488

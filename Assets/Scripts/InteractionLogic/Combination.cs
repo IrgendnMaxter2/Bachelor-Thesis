@@ -36,7 +36,6 @@ public sealed class CombinationHint
 {
     [SerializeField] private string firstIngredientId;
     [SerializeField] private string secondIngredientId;
-
     [TextArea]
     [SerializeField] private string message;
 
