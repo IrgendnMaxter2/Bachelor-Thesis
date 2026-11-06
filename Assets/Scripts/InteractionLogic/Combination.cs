@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -18,7 +19,7 @@ public sealed class CombinationRecipe : ScriptableObject
     public string ResultDescription => resultDescription;
     public Sprite ResultIcon => resultIcon;
 
-    public bool Matches(System.Collections.Generic.IReadOnlyList<InventoryEntry> entries)
+    public bool Matches(IReadOnlyList<InventoryEntry> entries)
     {
         if (entries == null || entries.Count != ingredientIds.Length)
             return false;
@@ -27,5 +28,29 @@ public sealed class CombinationRecipe : ScriptableObject
 
         return selectedIds.OrderBy(id => id)
             .SequenceEqual(ingredientIds.OrderBy(id => id));
+    }
+}
+
+[System.Serializable]
+public sealed class CombinationHint
+{
+    [SerializeField] private string firstIngredientId;
+    [SerializeField] private string secondIngredientId;
+
+    [TextArea]
+    [SerializeField] private string message;
+
+    public string Message => message;
+
+    public bool Matches(IReadOnlyList<InventoryEntry> entries)
+    {
+        if (entries == null || entries.Count != 2)
+            return false;
+
+        return
+            (entries[0].Id == firstIngredientId &&
+             entries[1].Id == secondIngredientId) ||
+            (entries[0].Id == secondIngredientId &&
+             entries[1].Id == firstIngredientId);
     }
 }

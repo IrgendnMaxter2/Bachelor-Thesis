@@ -17,5 +17,5 @@ MonoBehaviour:
   - item_lighter
   resultId: item_torch
   resultName: Torch
-  resultDescription: Maybe those thorny vines...
+  resultDescription: Hm... Maybe with that, the mushrooms...
   resultIcon: {fileID: 21300000, guid: 49fdfe647fb07a340bf7fa3a48e4f786, type: 3}
