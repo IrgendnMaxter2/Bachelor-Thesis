@@ -8362,6 +8362,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02bfd42be3ca8e04e93707d9f8a7dcc1, type: 2}
   - {fileID: 11400000, guid: 2175d110e3cc29841b99eadcb2ebddb1, type: 2}
   - {fileID: 11400000, guid: 7eed339c5cfe2544ea1d1354b51281ee, type: 2}
+  combinationHints:
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_lighter
+    message: The doll gives you a stern look as it swats the sparks away.
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_pocketKnife
+    message: The doll looks at you unfazed. It doesn't seem to care about metal.
+  - firstIngredientId: item_strawDoll
+    secondIngredientId: item_sharpenedStick
+    message: It almost worked, but the Doll pulled itself free. How do I keep it
+      there?
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_thickBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_longBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_lighter
+    secondIngredientId: item_flimsyBranch
+    message: It's too moist to catch fire.
+  - firstIngredientId: item_pocketKnife
+    secondIngredientId: item_flimsyBranch
+    message: It's too flimsy to be worked on with a knife
+  - firstIngredientId: item_pocketKnife
+    secondIngredientId: item_longBranch
+    message: It's long but not broad enough to be shaped.
 --- !u!1 &1122941488
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,7 +11114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 28}
   m_SizeDelta: {x: 240, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1534737356
@@ -14842,7 +14868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979163163
 RectTransform:
   m_ObjectHideFlags: 0
